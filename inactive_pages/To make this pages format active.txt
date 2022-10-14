@@ -1,0 +1,1 @@
+To activate all the subsection of pages, rename the directory from "inactive_pages" to "pages".
