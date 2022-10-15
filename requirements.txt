@@ -13,6 +13,6 @@ downcast==0.0.8       # dataframe memory downsize
 papermill==2.4.0      # Schedule notebook run
 statsmodels==0.13.2
 xgboost==1.6.2
-lightgbm=3.3.3
+lightgbm==3.3.3
 tensorflow==2.10.0
 keras==2.10.0
