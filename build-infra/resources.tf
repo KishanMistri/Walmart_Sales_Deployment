@@ -114,6 +114,7 @@ resource "aws_instance" "walmart_web_app" {
     inline = [
         "git clone https://github.com/KishanMistri/Walmart_Sales_Deployment.git",
         "pip install -r Walmart_Sales_Deployment/requirements.txt",
+        "(crontab -l 2>/dev/null || echo "# run the model notebook with the papermill process at 1 AM every day"; echo "0 1 * * * papermill ~/.Walmart_Sales_Deployment/selected_model.ipynb ~/.Walmart_Sales_Deployment/results.ipynb") | crontab -",
         "streamlit run Walmart_Sales_Deployment/Home.py"
     ]
   }
