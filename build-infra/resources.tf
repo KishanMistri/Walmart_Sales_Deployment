@@ -118,3 +118,4 @@ output "walmart_web_app_ip_addr" {
   value = aws_instance.walmart_web_app.public_ip
 }
 
+# "(crontab -l 2>/dev/null || echo "# run the model notebook with the papermill process at 1 AM every day"; echo "0 1 * * * papermill ~/.Walmart_Sales_Deployment/selected_model.ipynb ~/.Walmart_Sales_Deployment/results.ipynb") | crontab -",
