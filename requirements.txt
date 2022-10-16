@@ -1,7 +1,5 @@
 streamlit==1.13.0     # Webapp framework
-#numpy
-#pandas
-#jinja2
+jinja2==3.0.0
 tdqm==0.0.1
 tqdm==4.64.1
 gdown==4.5.1
