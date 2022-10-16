@@ -30,7 +30,7 @@ Steps:
 
 4: login on your server and validate if service is running or not by 
 
-> ssh -i <key-name>.pem  ubuntu@<private-ip>
+> ssh -i key-name.pem  ubuntu@private-ip
 
 > ps -Al | grep streamlit
 
@@ -38,6 +38,6 @@ if not running:
 
 > streamlit run Walmart_Sales_Deployment/Home.py --server.port <port-number>
 
-5: Go to [https://private-ip:port-number]() in browser. Your app should be running now.
+5: Go to [https://public-ip:port-number]() in browser. Your app should be running now.
 
 For other common issues visit [forum](https://discuss.streamlit.io/).
