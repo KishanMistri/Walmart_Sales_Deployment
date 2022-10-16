@@ -88,7 +88,7 @@ resource "aws_network_interface_sg_attachment" "sg_attachment" {
 
 resource "aws_instance" "walmart_web_app" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "c4.4xlarge"
+  instance_type = var.instance_type
   key_name      = var.keypair
   subnet_id     = aws_subnet.subnet1.id
   tags = {
