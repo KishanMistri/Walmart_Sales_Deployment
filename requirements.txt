@@ -1,6 +1,7 @@
-numpy
-pandas
-jinja2
+streamlit==1.13.0     # Webapp framework
+#numpy
+#pandas
+#jinja2
 tdqm==0.0.1
 tqdm==4.64.1
 gdown==4.5.1
@@ -8,7 +9,6 @@ plotly==5.10.0        # Graph
 plotly_express==0.4.1 # Graph
 boto3                 # AWS cli interaction
 scikit-learn==1.1.2
-streamlit==1.13.0     # Webapp framework
 downcast==0.0.8       # dataframe memory downsize
 papermill==2.4.0      # Schedule notebook run
 #statsmodels==0.13.2
