@@ -13,3 +13,6 @@ variable "subnet1" {
 variable "keypair" {
   default = "walmart-project"
 }
+variable "instance_type" {
+  default = "c4.4xlarge"
+}
