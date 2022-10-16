@@ -88,7 +88,7 @@ resource "aws_network_interface_sg_attachment" "sg_attachment" {
 
 resource "aws_instance" "walmart_web_app" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
+  instance_type = "c4.4xlarge"
   key_name      = var.keypair
   subnet_id     = aws_subnet.subnet1.id
   tags = {
@@ -97,25 +97,70 @@ resource "aws_instance" "walmart_web_app" {
     Additional = "${var.env}_box"
   }
   user_data = file("./scripts/init_script.sh")
-  
+}
+
+
+resource "null_resource" "post_start_file_provisioner" {
   connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      private_key = file("./keys/walmart-project.pem")
-      host        = self.public_ip
-      timeout     = "5m"
-    }
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file("walmart-project.pem")
+    host        = aws_instance.walmart_web_app.public_ip
+    timeout     = "5m"
+  }
     
+  provisioner "file" {
+    source      = "./scripts/init_script.sh"
+    destination = "/tmp/init_script.sh"
+  }
+  
+  provisioner "file" {
+    source      = "./scripts/project_prep.sh"
+    destination = "/tmp/project_prep.sh"
+  }
+
+  depends_on = [aws_instance.walmart_web_app]
+}
+
+resource "null_resource" "post_start_remote_exec" {
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file("walmart-project.pem")
+    host        = aws_instance.walmart_web_app.public_ip
+    timeout     = "5m"
+  }
+  
   provisioner "remote-exec" {
     inline = [
-        "git clone https://github.com/KishanMistri/Walmart_Sales_Deployment.git",
-        "pip install -r Walmart_Sales_Deployment/requirements.txt",
-        "streamlit run Walmart_Sales_Deployment/Home.py"
+      "chmod +x /tmp/init_script.sh",
+      "sh /tmp/init_script.sh",
     ]
   }
+
+  depends_on = [null_resource.post_start_file_provisioner]
 }
+
+resource "null_resource" "streamlit_setup" {
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file("walmart-project.pem")
+    host        = aws_instance.walmart_web_app.public_ip
+    timeout     = "5m"
+  }
+  
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/project_prep.sh",
+      "nohup sh /tmp/project_prep.sh  </dev/null &>/dev/null &",
+      "echo 'Please open app in the with browser: (Default URL:) http://<public-ip:443>'"
+    ]
+  }
+
+  depends_on = [null_resource.post_start_remote_exec]
+}
+
 output "walmart_web_app_ip_addr" {
   value = aws_instance.walmart_web_app.public_ip
 }
-
-# "(crontab -l 2>/dev/null || echo "# run the model notebook with the papermill process at 1 AM every day"; echo "0 1 * * * papermill ~/.Walmart_Sales_Deployment/selected_model.ipynb ~/.Walmart_Sales_Deployment/results.ipynb") | crontab -",
