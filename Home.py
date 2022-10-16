@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import gdown
 import plotly.express as px   # Use of plotly Graph 
+import boto3
+s3 = boto3.client('s3')
 
 
 st.title('Walmart Unit Sales Forecasting')
@@ -15,7 +17,7 @@ def download_related_files():
 
     # "submission_csv" folder
     id = "1cdFdbFHWmGOGG8ssMsDsj2aFZMOhB0LC"
-    gdown.download_folder(id=id, quiet=True, use_cookies=False)
+    gdown.download_folder(id=id, quiet=True, use_cookies=False)    
 
 # Downloads the dataset files & prediction files
 download_related_files()
@@ -24,7 +26,16 @@ download_related_files()
 dataset_path = './dataset/'
 csv_path = './submission_csv/'
 evaluation_df = pd.read_csv(dataset_path+'sales_train_evaluation.csv')
-    
+
+# s3.download_file('project-walmart-csv', 'submission_LightGBM.csv', './dataset/submission_LightGBM.csv')
+# s3.download_file('project-walmart-csv', 'submission_LSTM.csv', './dataset/submission_LSTM.csv')
+# s3.download_file('project-walmart-csv', 'submission_decisionTree.csv', './dataset/submission_decisionTree.csv')
+# s3.download_file('project-walmart-csv', 'submission_MA.csv', './dataset/submission_MA.csv')
+# s3.download_file('project-walmart-csv', 'submission_RandomForest.csv', './dataset/submission_RandomForest.csv')
+# s3.download_file('project-walmart-csv', 'submission_SGD.csv', './dataset/submission_SGD.csv')
+# s3.download_file('project-walmart-csv', 'submission_XGB.csv', './dataset/submission_XGB.csv')
+
+
 # Item dropdown list
 item_options = evaluation_df['id'].str.replace('_evaluation','').tolist()
 # Dropdown Menu
