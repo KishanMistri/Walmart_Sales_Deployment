@@ -1,7 +1,12 @@
 # Walmart Unit Sales Forecasting for next 28 days
-Streamlit deployment of model result dashboarding.
+Result: Streamlit deployment of model result dashboarding.
+Whole infrastruction creation using Terraform and app setting using packaged modules.
 
-Pre-requisites:
+**Screen:**
+![Project Screen](https://user-images.githubusercontent.com/20341930/200164273-992cbce4-79e6-4b90-b79f-a474f2c1b321.png)
+
+
+**Pre-requisites:**
 
 1: You must have AWS account and its secret configured locally. 
 
@@ -10,7 +15,7 @@ Pre-requisites:
 3: Terraform should be installed and setup on your system.
 
 
-Steps:
+**Steps:**
 
 1: Download/clone this [project repo](https://github.com/KishanMistri/Walmart_Sales_Deployment).
 
@@ -30,13 +35,13 @@ Steps:
 
 4: login on your server and validate if service is running or not by 
 
-> ssh -i key-name.pem  ubuntu@private-ip
+> ssh -i **KEYPAIR_NAME**.pem  ubuntu@**PRIVATE_IP**
 
 > ps -Al | grep streamlit
 
 if not running: 
 
-> streamlit run Walmart_Sales_Deployment/Home.py --server.port <port-number>
+> streamlit run Walmart_Sales_Deployment/Home.py --server.port **PORT_NUMBER**
 
 5: Go to [https://public-ip:port-number]() in browser. Your app should be running now.
 
